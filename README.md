@@ -32,4 +32,6 @@ This repository contains a version of the map with 8 example questions (2 for ea
 11. Pack the scripts into the map you just compiled, in regards to their respective relative paths
 12. Delete the leftover scripts in your TF2's game folder
 
-If the map works perfectly, congrats! You now have your very own fully playable version of the map. If you wish to edit the questions, unpack the question list script files and repack them once you're finished. However, it is recommended that you repeat these steps from the beginning with a new map name to avoid having mismatched versions of the map.
+If the map works perfectly, congrats! You now have your very own fully playable version of the map.
+
+If you wish to edit the questions, unpack the question list script files and repack them once you're finished. However, it is recommended that you repeat these steps from the beginning with a new map name to avoid having mismatched versions of the map.
