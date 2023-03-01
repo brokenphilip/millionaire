@@ -44,7 +44,7 @@ function getQuestion(level)
     switch (level)
     {
         case 0:
-			// Regenerate the index sequence if we've run out
+            // Regenerate the index sequence if we've run out
             if (easy_randidx.len() == 0)
                 easy_randidx = generateRandIdx(easy_questions)
             index = getRandIdx(easy_randidx)
@@ -70,16 +70,16 @@ function getQuestion(level)
             break
     }
 
-	// A question needs to have at least 5 parameters (question, right answer and 3 wrong answers)
+    // A question needs to have at least 5 parameters (question, right answer and 3 wrong answers)
     Assert(question.len() > 4, "Question (level: " + level + ", index: " + index + ") is missing arguments")
 
-	// Collect all the possible wrong answers
+    // Collect all the possible wrong answers
     local max_wrong_ans = question.len() - 2
     local wrong_ans = array(max_wrong_ans)
     for (local i = 2; i < question.len(); i += 1)
         wrong_ans[i-2] = question[i]
 
-	// Then pick out a few using non-repeat RNG from index sequences
+    // Then pick out a few using non-repeat RNG from index sequences
     local wrong_ans_randidx = generateRandIdx(wrong_ans)
     local wrong_ans1 = wrong_ans[getRandIdx(wrong_ans_randidx)]
     local wrong_ans2 = wrong_ans[getRandIdx(wrong_ans_randidx)]
@@ -113,7 +113,7 @@ function maybeMakeMultiline(str)
         str_multi += split
         length -= split.len()
     }
-	local split = str.slice(lastidx)
+    local split = str.slice(lastidx)
     str_multi += split
     return str_multi
 }
@@ -125,11 +125,11 @@ function onQuestion(level, option)
     local qtable = getQuestion(level)
     local question = maybeMakeMultiline(qtable.question)
 
-	// For game_text entities' names
-	// Format: tX_qY_Z
-	//   X = level, 0 for easy -> 3 for final
-	//   Y = (correct) option, 1 for A -> 4 for D
-	//   Z = "q" for question, "a" for answer
+    // For game_text entities' names
+    // Format: tX_qY_Z
+    //   X = level, 0 for easy -> 3 for final
+    //   Y = (correct) option, 1 for A -> 4 for D
+    //   Z = "q" for question, "a" for answer
 	
     local ent = null
     while (ent = Entities.FindByName(ent, "t" + level + "_q" + option + "_q"))
@@ -141,32 +141,32 @@ function onQuestion(level, option)
     local wrong_ans3 = maybeMakeMultiline(qtable.wrong_ans3)
 
     local answers
-	local answers2
+    local answers2
     switch (option)
     {
         case 1:
             answers = "A) " + right_ans + "\nB) " + wrong_ans1 + "\nC) " + wrong_ans2 + "\nD) " + wrong_ans3
-			answers2 = "A) " + qtable.right_ans + "\nB) " + qtable.wrong_ans1 + "\nC) " + qtable.wrong_ans2 + "\nD) " + qtable.wrong_ans3
+            answers2 = "A) " + qtable.right_ans + "\nB) " + qtable.wrong_ans1 + "\nC) " + qtable.wrong_ans2 + "\nD) " + qtable.wrong_ans3
             break;
         case 2:
             answers = "A) " + wrong_ans1 + "\nB) " + right_ans + "\nC) " + wrong_ans2 + "\nD) " + wrong_ans3
-			answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.right_ans + "\nC) " + qtable.wrong_ans2 + "\nD) " + qtable.wrong_ans3
+            answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.right_ans + "\nC) " + qtable.wrong_ans2 + "\nD) " + qtable.wrong_ans3
             break;
         case 3:
             answers = "A) " + wrong_ans1 + "\nB) " + wrong_ans2 + "\nC) " + right_ans + "\nD) " + wrong_ans3
-			answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.wrong_ans2 + "\nC) " + qtable.right_ans + "\nD) " + qtable.wrong_ans3
+            answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.wrong_ans2 + "\nC) " + qtable.right_ans + "\nD) " + qtable.wrong_ans3
             break;
         case 4:
             answers = "A) " + wrong_ans1 + "\nB) " + wrong_ans2 + "\nC) " + wrong_ans3 + "\nD) " + right_ans
-			answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.wrong_ans2 + "\nC) " + qtable.wrong_ans3 + "\nD) " + qtable.right_ans
+            answers2 = "A) " + qtable.wrong_ans1 + "\nB) " + qtable.wrong_ans2 + "\nC) " + qtable.wrong_ans3 + "\nD) " + qtable.right_ans
             break;
     }
 
     local ent = null
     while (ent = Entities.FindByName(ent, "t" + level + "_q" + option + "_a"))
-        NetProps.SetPropString(ent, "m_iszMessage", answers)
+    NetProps.SetPropString(ent, "m_iszMessage", answers)
 
-	// TODO: delay by two seconds (use if game_text doesn't display properly/conflicts with server plugins)
+    // TODO: delay by two seconds (use if game_text doesn't display properly/conflicts with server plugins)
     //ClientPrint(null, 3, "\x07" + "7777FF[Quiz] \x07" + "BBBBFF" + qtable.question)
     //ClientPrint(null, 3, "\x07" + "BBBBFF" + answers2)
 }
